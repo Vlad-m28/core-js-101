@@ -66,7 +66,7 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-  return value.slice(7, ).replace('!', '');
+  return value.slice(7).replace('!', '');
 }
 
 
@@ -202,8 +202,11 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  const up = `┌${'─'.repeat(width - 2)}┐`;
+  const middle = `│${' '.repeat(width - 2)}│\n`;
+  const bottom = `└${'─'.repeat(width - 2)}┘`;
+  return `${up}\n${middle.repeat(height - 2)}${bottom}\n`;
 }
 
 
@@ -224,17 +227,9 @@ function getRectangleString(/* width, height */) {
  *
  */
 function encodeToRot13(str) {
-  let newStr = '';
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ';
-  const cipher = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm ';
-  for (let letter of str) {
-    let indexCipher = alphabet.indexOf(letter);
-    if (cipher[indexCipher]) {
-      newStr += cipher[indexCipher];
-    } else newStr += letter;
-  }
+  const newStr = str.replace(/[a-z]/ig, (char) => String.fromCharCode(char.charCodeAt(0) + 13 - 26 * /[n-z]/i.test(char)));
   return newStr;
-};
+}
 
 /**
  * Returns true if the value is string; otherwise false.
@@ -250,9 +245,9 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-  if (typeof(value) == "string") {
+  if (typeof (value) === 'string' || value instanceof String) {
     return true;
-  } else return false;
+  } return false;
 }
 
 
